@@ -1,0 +1,96 @@
+DATA:
+  MAX_SAMPLE_INTERVAL: 10
+  MEAN:
+  - 0.485
+  - 0.456
+  - 0.406
+  SEARCH:
+    CENTER_JITTER: 3
+    FACTOR: 4.0
+    SCALE_JITTER: 0.3
+    SIZE: 224
+  STD:
+  - 0.229
+  - 0.224
+  - 0.225
+  TEMPLATE:
+    CENTER_JITTER: 0
+    FACTOR: 1.5
+    SCALE_JITTER: 0
+    SIZE: 96
+    NUMBER: 1
+  TRAIN:
+    # DATASETS_NAME: "SoccerNet_train","SoccerNet_test","DanceTrack_train","DanceTrack_val","SportsMOT_train","SportsMOT_val","SportsMOT_mix","MOT17-train","MOT17-train_half","MOT17-val_half"
+    DATASETS_NAME:
+    - SportsMOT_train
+    DATASETS_RATIO:
+    - 1
+    SAMPLE_PER_EPOCH: 60000
+  VAL:
+    DATASETS_NAME:
+    - SportsMOT_val
+    DATASETS_RATIO:
+    - 1
+    SAMPLE_PER_EPOCH: 10000
+MODEL:
+  BACKBONE:
+    PRETRAINED: True 
+    PRETRAINED_PATH: 'pretrained/MixFormerOnlineScore.pth.tar'
+    INIT: 'trunc_norm'
+    NUM_STAGES: 3
+    PATCH_SIZE: [ 7, 3, 3 ]
+    PATCH_STRIDE: [ 4, 2, 2 ]
+    PATCH_PADDING: [ 2, 1, 1 ]
+    DIM_EMBED: [ 64, 192, 768 ]
+    NUM_HEADS: [ 1, 3, 12 ]
+    DEPTH: [ 1, 2, 9 ]
+    MLP_RATIO: [ 4.0, 4.0, 4.0 ]
+    ATTN_DROP_RATE: [ 0.0, 0.0, 0.0 ]
+    DROP_RATE: [ 0.0, 0.0, 0.0 ]
+    DROP_PATH_RATE: [ 0.0, 0.0, 0.1 ]
+    QKV_BIAS: [ True, True, True ]
+    CLS_TOKEN: [ False, False, False ]
+    POS_EMBED: [ False, False, False ]
+    QKV_PROJ_METHOD: [ 'dw_bn', 'dw_bn', 'dw_bn' ]
+    KERNEL_QKV: [ 3, 3, 3 ]
+    PADDING_KV: [ 1, 1, 1 ]
+    STRIDE_KV: [ 2, 2, 2 ]
+    PADDING_Q: [ 1, 1, 1 ]
+    STRIDE_Q: [ 1, 1, 1 ]
+    FREEZE_BN: False
+  HEAD_TYPE: Heatmap
+  HIDDEN_DIM: 768
+  NUM_OBJECT_QUERIES: 1 # use when tokenHead is applied.
+  POSITION_EMBEDDING: sine
+  PREDICT_MASK: false
+TRAIN:
+  AMP: True
+  BACKBONE_MULTIPLIER: 0.1
+  BATCH_SIZE: 96  # 8 for 2080ti (maybe 10), 32 for tesla V100(32 G)
+  DEEP_SUPERVISION: false
+  EPOCH: 300
+  IOU_WEIGHT: 2.0
+  GRAD_CLIP_NORM: 0.1
+  L1_WEIGHT: 5.0
+  LR: 0.0004
+  LR_DROP_EPOCH: 100
+  NUM_WORKER: 5
+  OPTIMIZER: ADAMW
+  PRINT_INTERVAL: 20
+  SCHEDULER:
+    TYPE: step
+    DECAY_RATE: 0.1
+  VAL_EPOCH_INTERVAL: 1
+  WEIGHT_DECAY: 0.0001
+TEST:
+  EPOCH: 500
+  SEARCH_FACTOR: 4.5
+  SEARCH_SIZE: 288
+  TEMPLATE_FACTOR: 2.0
+  TEMPLATE_SIZE: 128
+  UPDATE_INTERVALS:
+    LASOT: [200]
+    GOT10K_TEST: [200]
+    TRACKINGNET: [25]
+    VOT20: [10]
+    VOT20LT: [200]
