@@ -1,6 +1,6 @@
 # MixSort
 
-MixSort is designed to enhance the appearance-based association performance and can be applied to any trackers that follow the tracking-by-detection paradigm, such as [ByteTrack](https://github.com/ifzhang/ByteTrack) and [OC-SORT](https://github.com/noahcao/OC_SORT). It uses the [MixFormer](https://github.com/MCG-NJU/MixFormer) network to compute visual similarities between tracked templates and detected objects in multi-object tracking.
+MixSort is designed to enhance the appearance-based association performance and can be applied to any trackers that follow the tracking-by-detection paradigm, such as [ByteTrack](https://github.com/ifzhang/ByteTrack) and [OC-SORT](https://github.com/noahcao/OC_SORT).
 
 <p align="center"><img src="assets/pipeline.png" width="500"/></p>
 
