@@ -1,6 +1,6 @@
 # MixSort
 
-MixSort is designed to enhance the appearance-based association performance and can be applied to any trackers that follow the tracking-by-detection paradigm, such as [ByteTrack](https://github.com/ifzhang/ByteTrack) and [OC-SORT](https://github.com/noahcao/OC_SORT).
+MixSort is the proposed baseline tracker in [**SportMOT**](https://github.com/MCG-NJU/SportsMOT). It's designed to enhance the appearance-based association performance and can be applied to any trackers that follow the tracking-by-detection paradigm, such as [ByteTrack](https://github.com/ifzhang/ByteTrack) and [OC-SORT](https://github.com/noahcao/OC_SORT).
 
 <p align="center"><img src="assets/pipeline.png" width="500"/></p>
 
