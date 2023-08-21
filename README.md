@@ -29,7 +29,7 @@ MixSort is the proposed baseline tracker in [**SportMOT**](https://github.com/MC
 ## Installation
 
 ```shell
-git clone https://github.com/MCG-NJU/MixSort
+git clone --recursive https://github.com/MCG-NJU/MixSort
 cd MixSort
 
 conda create -n MixSort python=3.8
@@ -196,6 +196,51 @@ For `iou`, use `track_byte.py` with `--iou_only` option.
 
 Use [TrackEval](https://github.com/JonathonLuiten/TrackEval) for detailed evaluation.
 
+We have integrated TrackEval as a submodule in this repo to help you evaluate the results easily. If you haven't cloned this repo with `--recursive` option, you can run the following command to get TrackEval:
+
+```shell
+cd <MixSort_HOME>
+git submodule update --init --recursive
+```
+
+`TrackEval/data` has following structure:
+
+```
+data
+├── gt
+│   └── mot_challenge
+│       └── sports-val
+│       └── ... (other datasets)
+│       └── seqmaps
+│           └── sports-val.txt
+│           └── ... (other datasets)
+└── trackers
+    └── mot_challenge
+        ├── sports-val
+        │   ├── <exp_name>
+        │   │   └── data
+        │   │       └── <seq_name>.txt
+        │   │       └── ... (other sequences)
+        │   └── ... (other exps)
+        └── ... (other datasets)
+```
+
+For example, if you want to evaluate on SportsMOT validation set, you could create symbolic link as follows:
+
+```shell
+cd <MixSort_HOME>
+ln -s datasets/SportsMOT/val TrackEval/data/gt/mot_challenge/sports-val
+```
+
+And then put the tracking results in `TrackEval/data/trackers/mot_challenge/sports-val/<exp_name>/data` or create a symbolic link to the tracking results. Finally, you can run the following command to evaluate the results:
+
+```shell
+cd <MixSort_HOME>
+python TrackEval/scripts/run_mot_challenge.py --BENCHMARK sports --SPLIT_TO_EVAL val --TRACKERS_TO_EVAL <exp_name>
+# For MOT17 validation set, you should add the following option: --GT_LOC_FORMAT '{gt_folder}/{seq}/gt/gt_val_half.txt'
+```
+
+We have also provided a python method in `TrackEval/scripts/eval_mot.py` to help you evaluate the results more conveniently. You can refer to it for more details.
 
 ## Citation
 
